@@ -29,7 +29,7 @@ and is supported by over 100 applications.
 
 http://www.musicxml.org/xml.html
 """
-
+import functools
 import xml
 from xml.dom.minidom import Document
 from mingus.core import notes
@@ -43,7 +43,7 @@ import datetime
 def _gcd(a=None, b=None, terms=None):
     """Return greatest common divisor using Euclid's Algorithm."""
     if terms:
-        return reduce(lambda a, b: _gcd(a, b), terms)
+        return functools.reduce(lambda a, b: _gcd(a, b), terms)
     else:
         while b:
             (a, b) = (b, a % b)
@@ -52,7 +52,7 @@ def _gcd(a=None, b=None, terms=None):
 def _lcm(a=None, b=None, terms=None):
     """Return lowest common multiple."""
     if terms:
-        return reduce(lambda a, b: _lcm(a, b), terms)
+        return functools.reduce(lambda a, b: _lcm(a, b), terms)
     else:
         return (a * b) / _gcd(a, b)
 
@@ -313,13 +313,13 @@ def write_Composition(composition, filename, zip=False):
         zf = zipfile.ZipFile(filename + '.mxl', mode='w',
                              compression=zipfile.ZIP_DEFLATED)
         zi = zipfile.ZipInfo('META-INF' + os.sep + 'container.xml')
-        zi.external_attr = 0660 << 16L
+        zi.external_attr = 0o660 << 16
         zf.writestr(zi,
                     "<?xml version='1.0' encoding='UTF-8'?>"
                     "<container><rootfiles><rootfile full-path='{0}.xml'/>"
                     "</rootfiles></container>".format(filename))
         zi = zipfile.ZipInfo(filename + '.xml')
-        zi.external_attr = 0660 << 16L
+        zi.external_attr = 0o660 << 16
         zf.writestr(zi, text)
         zf.close()
 

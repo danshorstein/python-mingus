@@ -62,9 +62,9 @@ class Track(object):
         """
         if self.instrument != None:
             if not self.instrument.can_play_notes(note):
-                raise InstrumentRangeError, \
+                raise InstrumentRangeError(\
                     "Note '%s' is not in range of the instrument (%s)" % (note,
-                        self.instrument)
+                        self.instrument))
         if duration == None:
             duration = 4
 
@@ -206,7 +206,7 @@ class Track(object):
         mingus.containers.Bar object.
         """
         if not hasattr(value, 'bar'):
-            raise UnexpectedObjectError("Unexpected object '%s', "
+            raise Exception("Unexpected object '%s', "
                     "expecting a mingus.containers.Barobject" % value)
         self.bars[index] = value
 
